@@ -31,7 +31,7 @@
         cenaGoriva = benzin;
     }
 </script>
-<div id="form">
+<form id="form" action="javascript:void(0);">
     <div>
         <input name="distanca" type="number" class="column input-field" placeholder="DISTANCA" bind:value={distanca}>
         <label for="distanca">DISTANCA</label>
@@ -51,7 +51,7 @@
     <button id="benzin" on:click={dodeliBenzin}>BENZIN</button>
     </div>
     <button on:click="{izracunaj}" id="izracunaj" class="column">Izračunaj</button>
-</div>
+</form>
 
 <div id="resoult">
     <p id="error">{error}</p>
