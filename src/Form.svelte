@@ -11,7 +11,10 @@
     let benzin = 135;
 
     function izracunaj(){
-        if(distanca, potrosnja, osoba, cenaGoriva !== 0){
+        if(
+            (distanca && potrosnja && osoba && cenaGoriva !== 0) &&
+            (distanca && potrosnja && osoba && cenaGoriva !== NaN)
+        ){
             litara = distanca / 100 * potrosnja;
             ukupno = litara * cenaGoriva;
             poOsobi = ukupno / osoba;
@@ -28,7 +31,7 @@
         cenaGoriva = benzin;
     }
 </script>
-<form id="form">
+<div id="form">
     <div>
         <input name="distanca" type="number" class="column input-field" placeholder="DISTANCA" bind:value={distanca}>
         <label for="distanca">DISTANCA</label>
@@ -48,7 +51,7 @@
     <button id="benzin" on:click={dodeliBenzin}>BENZIN</button>
     </div>
     <button on:click="{izracunaj}" id="izracunaj" class="column">Izračunaj</button>
-</form>
+</div>
 
 <div id="resoult">
     <p id="error">{error}</p>
