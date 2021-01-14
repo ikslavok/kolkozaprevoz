@@ -28,27 +28,27 @@
         cenaGoriva = benzin;
     }
 </script>
-<div id="form">
+<form id="form">
     <div>
-        <input name="distanca" type="text" class="column input-field" placeholder="DISTANCA" bind:value={distanca}>
+        <input name="distanca" type="number" class="column input-field" placeholder="DISTANCA" bind:value={distanca}>
         <label for="distanca">DISTANCA</label>
     </div>
     <div>
-        <input name="potrosnja" type="text" class="column input-field" placeholder="POTROŠNJA" bind:value={potrosnja}>
+        <input name="potrosnja" type="number" class="column input-field" placeholder="POTROŠNJA" bind:value={potrosnja}>
         <label for="potrosnja">POTROŠNJA</label>
     </div>
     <div>
-    <input name="osoba" type="text" class="column input-field" placeholder="BROJ OSOBA" bind:value={osoba}>
+    <input name="osoba" type="number" class="column input-field" placeholder="BROJ OSOBA" bind:value={osoba}>
     <label for="osoba">BROJ OSOBA</label>
     </div>
     <div>
-    <input name="gorivo" type="text" class="column input-field" placeholder="CENA GORIVA" bind:value={cenaGoriva}>
+    <input name="gorivo" type="number" class="column input-field" placeholder="CENA GORIVA" bind:value={cenaGoriva}>
     <label for="gorivo">CENA GORIVA</label>
     <button id="dizel" on:click={dodeliDizel}>DIZEL</button>
     <button id="benzin" on:click={dodeliBenzin}>BENZIN</button>
     </div>
     <button on:click="{izracunaj}" id="izracunaj" class="column">Izračunaj</button>
-</div>
+</form>
 
 <div id="resoult">
     <p id="error">{error}</p>
@@ -58,7 +58,14 @@
 </div>
 
 <style>
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
 #form{
     display: grid;
     grid-template-columns: 1fr;
