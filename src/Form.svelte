@@ -1,14 +1,18 @@
 <script>
+    import * as myjson from './cene.json'
+    let dizel = myjson.dizel * 117.5;
+    let benzin = myjson.benzin * 117.5;
+    dizel = dizel.toFixed(2);
+    benzin = benzin.toFixed(2);
     let distanca = "";
     let potrosnja = "";
-    let osoba = "";
-    let cenaGoriva = "";
+    let osoba = 1;
+    let cenaGoriva = dizel;
     let ukupno = "";
     let poOsobi = "";
     let litara = "";
     let error = "";
-    let dizel = 143;
-    let benzin = 135;
+    
 
     function izracunaj(){
         if(
@@ -25,6 +29,7 @@
     }
 
     function dodeliDizel(){
+        
         cenaGoriva = dizel;
     }
     function dodeliBenzin(){
@@ -33,32 +38,35 @@
 </script>
 <form id="form" action="javascript:void(0);">
     <div>
-        <input name="distanca" type="number" class="column input-field" placeholder="DISTANCA" bind:value={distanca}>
+        <input on:focus={(evt) => evt.target.select()} step="any" name="distanca" type="number" class="column input-field" placeholder="DISTANCA" bind:value={distanca}>
         <label for="distanca">DISTANCA</label>
     </div>
     <div>
-        <input name="potrosnja" type="number" class="column input-field" placeholder="POTROŠNJA" bind:value={potrosnja}>
+        <input on:focus={(evt) => evt.target.select()} step="any" name="potrosnja" type="number" class="column input-field" placeholder="POTROŠNJA" bind:value={potrosnja}>
         <label for="potrosnja">POTROŠNJA</label>
     </div>
     <div>
-    <input name="osoba" type="number" class="column input-field" placeholder="BROJ OSOBA" bind:value={osoba}>
+    <input on:focus={(evt) => evt.target.select()} step="any" name="osoba" type="number" class="column input-field" placeholder="BROJ OSOBA" bind:value={osoba}>
     <label for="osoba">BROJ OSOBA</label>
     </div>
     <div>
-    <input name="gorivo" type="number" class="column input-field" placeholder="CENA GORIVA" bind:value={cenaGoriva}>
+    <input on:focus={(evt) => evt.target.select()} step="any" name="gorivo" type="number" class="column input-field" placeholder="CENA GORIVA" bind:value={cenaGoriva}>
     <label for="gorivo">CENA GORIVA</label>
     <button id="dizel" on:click={dodeliDizel}>DIZEL</button>
     <button id="benzin" on:click={dodeliBenzin}>BENZIN</button>
     </div>
     <button on:click="{izracunaj}" id="izracunaj" class="column">Izračunaj</button>
 </form>
-
+{#if distanca && potrosnja && osoba}
 <div id="resoult">
     <p id="error">{error}</p>
-<p class="odgovor">Ukupno za ovo putovanje će ti trebati <strong>{ukupno} din</strong></p>
-<p class="odgovor">Svako od vas <strong>{osoba}</strong> treba da izdvoji <strong>{poOsobi} din</strong></p>
-<p class="odgovor">Potrošićeš <strong>{litara} l </strong>goriva</p>
+<p class="odgovor">Ukupno za ovo putovanje će ti trebati <strong>{parseFloat(ukupno).toFixed(0)} din</strong> ili <strong>{parseFloat(ukupno / 117.5).toFixed(2)} eur</strong></p>
+{#if osoba > 1}
+<p class="odgovor">Svako od vas <strong>{osoba}</strong> treba da izdvoji <strong>{parseInt(poOsobi)} din</strong> ili <strong>{parseFloat(poOsobi / 117.5).toFixed(2)} eur</strong></p>
+{/if}
+<p class="odgovor">Potrošićeš <strong>{parseFloat(litara).toFixed(2)} l </strong>goriva</p>
 </div>
+{/if}
 
 <style>
 input::-webkit-outer-spin-button,
