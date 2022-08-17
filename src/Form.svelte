@@ -62,7 +62,7 @@
     <p id="error">{error}</p>
 <p class="odgovor">Ukupno za ovo putovanje će ti trebati <strong>{parseFloat(ukupno).toFixed(0)} din</strong> ili <strong>{parseFloat(ukupno / 117.5).toFixed(2)} eur</strong></p>
 {#if osoba > 1}
-<p class="odgovor">Svako od vas <strong>{osoba}</strong> treba da izdvoji <strong>{parseInt(poOsobi)} din</strong> ili <strong>{parseFloat(poOsobi / 117.5).toFixed(2)} eur</strong></p>
+<p class="odgovor">Svako od vas <strong>{osoba}</strong> treba da izdvoji <strong>{parseFloat(poOsobi).toFixed(0)} din</strong> ili <strong>{parseFloat(poOsobi / 117.5).toFixed(2)} eur</strong></p>
 {/if}
 <p class="odgovor">Potrošićeš <strong>{parseFloat(litara).toFixed(2)} l </strong>goriva</p>
 </div>
