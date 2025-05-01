@@ -13,6 +13,7 @@
     let ukupno = "";
     let poOsobi = "";
     let litara = "";
+    let duration = "";
     let error = "";
     let showPocetnaLokacija = false;
     let pocetnaLokacija = "";
@@ -51,6 +52,34 @@
             streetViewControl: false,
             fullscreenControl: false
         });
+
+        // Create custom navigation control
+        const navigationDiv = document.createElement('div');
+        const navigationControl = document.createElement('button');
+        navigationControl.style.backgroundColor = '#fff';
+        navigationControl.style.border = 'none';
+        navigationControl.style.borderRadius = '2px';
+        navigationControl.style.boxShadow = '0 1px 4px rgba(0,0,0,0.3)';
+        navigationControl.style.cursor = 'pointer';
+        navigationControl.style.margin = '10px';
+        navigationControl.style.padding = '0';
+        navigationControl.style.width = '40px';
+        navigationControl.style.height = '40px';
+        navigationControl.style.display = 'flex';
+        navigationControl.style.alignItems = 'center';
+        navigationControl.style.justifyContent = 'center';
+        
+        // Navigation icon (using Google Maps-like icon)
+        navigationControl.innerHTML = `
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="#666">
+                <path d="M21.71 11.29l-9-9a.996.996 0 00-1.41 0l-9 9a.996.996 0 000 1.41l9 9c.39.39 1.02.39 1.41 0l9-9a.996.996 0 000-1.41zM14 14.5V12h-4v3H8v-4c0-.55.45-1 1-1h5V7.5l3.15 3.15c.2.2.2.51 0 .71L14 14.5z"/>
+            </svg>
+        `;
+        
+        navigationControl.addEventListener('click', openNavigation);
+        navigationDiv.appendChild(navigationControl);
+        
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(navigationDiv);
 
         directionsService = new google.maps.DirectionsService();
         directionsRenderer = new google.maps.DirectionsRenderer({
@@ -208,6 +237,10 @@
                     destinations: [destinacija],
                     travelMode: google.maps.TravelMode.DRIVING,
                     unitSystem: google.maps.UnitSystem.METRIC,
+                    drivingOptions: {
+                        departureTime: new Date(),
+                        trafficModel: google.maps.TrafficModel.BEST_GUESS
+                    }
                 }, (response, status) => {
                     if (status === 'OK') {
                         resolve(response);
@@ -220,6 +253,7 @@
             if (response.rows[0].elements[0].status === 'OK') {
                 const distanceInKm = response.rows[0].elements[0].distance.value / 1000;
                 distanca = distanceInKm.toFixed(1);
+                duration = response.rows[0].elements[0].duration_in_traffic?.text || response.rows[0].elements[0].duration.text;
             }
         } catch (error) {
             console.error('Error calculating distance:', error);
@@ -243,6 +277,13 @@
                     startInput.focus();
                 }
             }, 100);
+        }
+    }
+
+    function openNavigation() {
+        if (pocetnaLokacija && destinacija) {
+            const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(pocetnaLokacija)}&destination=${encodeURIComponent(destinacija)}&travelmode=driving`;
+            window.open(url, '_blank');
         }
     }
 
@@ -292,7 +333,7 @@
             const map = new Map(mapElement, {
                 zoom: 7,
                 center: { lat: 44.787197, lng: 20.457273 }, // Belgrade center
-                disableDefaultUI: true, // Removes all controls
+                disableDefaultUI: false, // Removes all controls
                 zoomControl: false,
                 mapTypeControl: false,
                 streetViewControl: false,
@@ -377,7 +418,7 @@
     {#if osoba > 1}
     <p class="odgovor">Svako od vas <strong>{osoba}</strong> treba da izdvoji <strong>{parseFloat(poOsobi).toFixed(0)} din</strong> ili <strong>{parseFloat(poOsobi / 117.5).toFixed(2)} eur</strong></p>
     {/if}
-    <p class="odgovor">Potrošićeš <strong>{parseFloat(litara).toFixed(2)} l </strong> goriva</p>
+    <p class="odgovor">Potrošićeš <strong>{parseFloat(litara).toFixed(2)} l </strong> goriva {#if duration} i trajaće oko <strong>{duration}</strong>{/if}</p>
 </div>
 {/if}
 
@@ -530,5 +571,23 @@ label{
     #map {
         width: 40vw;
     }
+}
+
+#navigate {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #388E3C;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+#navigate:hover {
+    background-color: #2E7D32;
 }
 </style> 
