@@ -46,11 +46,12 @@
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 7,
             center: { lat: 44.787197, lng: 20.457273 }, // Belgrade center
-            disableDefaultUI: true, // Removes all controls
+            disableDefaultUI: false,
             zoomControl: false,
             mapTypeControl: false,
             streetViewControl: false,
-            fullscreenControl: false
+            fullscreenControl: false,
+            language: 'sr-Latn'
         });
 
         // Create custom navigation control
@@ -101,7 +102,8 @@
                 directionsService.route({
                     origin: pocetnaLokacija,
                     destination: destinacija,
-                    travelMode: google.maps.TravelMode.DRIVING
+                    travelMode: google.maps.TravelMode.DRIVING,
+                    language: 'sr-Latn'
                 }, (response, status) => {
                     if (status === 'OK') {
                         resolve(response);
@@ -240,7 +242,8 @@
                     drivingOptions: {
                         departureTime: new Date(),
                         trafficModel: google.maps.TrafficModel.BEST_GUESS
-                    }
+                    },
+                    language: 'sr-Latn'
                 }, (response, status) => {
                     if (status === 'OK') {
                         resolve(response);
@@ -302,7 +305,7 @@
 
     onMount(() => {
         const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&loading=async&libraries=places&callback=initMap`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&loading=async&libraries=places&language=sr-Latn&callback=initMap`;
         script.async = true;
         script.defer = true;
         document.head.appendChild(script);
@@ -337,7 +340,8 @@
                 zoomControl: false,
                 mapTypeControl: false,
                 streetViewControl: false,
-                fullscreenControl: false
+                fullscreenControl: false,
+                language: 'sr-Latn'
             });
 
             const directionsService = new DirectionsService();
