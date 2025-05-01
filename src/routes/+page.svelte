@@ -95,7 +95,6 @@
         const endInput = document.getElementById('destinacija');
         
         const autoCompleteOptions = {
-            componentRestrictions: { country: 'rs' },
             language: 'sr-latn',
             fields: ['formatted_address', 'geometry']
         };
@@ -167,8 +166,7 @@
             const result = await new Promise((resolve, reject) => {
                 geocoder.geocode({
                     address: address,
-                    language: 'sr-latn',
-                    region: 'rs'
+                    language: 'sr-latn'
                 }, (results, status) => {
                     if (status === 'OK' && results[0]) {
                         resolve(results[0]);
@@ -183,8 +181,7 @@
             await new Promise((resolve, reject) => {
                 geocoder.geocode({
                     location: latLng,
-                    language: 'sr-latn',
-                    region: 'rs'
+                    language: 'sr-latn'
                 }, (results, status) => {
                     if (status === 'OK' && results[0]) {
                         callback(results[0].formatted_address);
