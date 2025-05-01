@@ -46,7 +46,7 @@
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 7,
             center: { lat: 44.787197, lng: 20.457273 }, // Belgrade center
-            disableDefaultUI: false,
+            disableDefaultUI: true, // Removes all controls
             zoomControl: false,
             mapTypeControl: false,
             streetViewControl: false,
@@ -336,7 +336,7 @@
             const map = new Map(mapElement, {
                 zoom: 7,
                 center: { lat: 44.787197, lng: 20.457273 }, // Belgrade center
-                disableDefaultUI: false, // Removes all controls
+                disableDefaultUI: true, // Removes all controls
                 zoomControl: false,
                 mapTypeControl: false,
                 streetViewControl: false,
