@@ -2,14 +2,33 @@
     import { onMount } from 'svelte';
     export let data;
     const GOOGLE_MAPS_API_KEY = data.googleMapsApiKey;
-    let dizel = data.ceneData.dizel * 117.5;
-    let benzin = data.ceneData.benzin * 117.5;
-    dizel = dizel.toFixed(2);
-    benzin = benzin.toFixed(2);
+    let countries = data.ceneData?.countries ?? [];
+    let drzava = 'RS';
+    let valuta = 'EUR';
+    let gorivo = 'dizel';
+    let rates = { EUR: 1 };
+    let currencyNames = { EUR: 'Euro' };
     let distanca = "";
     let potrosnja = 7;
     let osoba = 1;
-    let cenaGoriva = dizel;
+    let cenaGoriva = ((countries.find(c => c.code === 'RS') ?? countries[0])?.dizel ?? 0).toFixed(2);
+
+    $: selectedCountry = countries.find(c => c.code === drzava) ?? countries[0];
+    $: sortedCountries = [...countries].sort((a, b) => a[gorivo] - b[gorivo]);
+    $: rate = rates[valuta] ?? 1;
+    $: dec = rate >= 100 ? 0 : 2;
+
+    function primeniCenu() {
+        const c = countries.find(x => x.code === drzava) ?? countries[0];
+        if (c) cenaGoriva = (c[gorivo] * (rates[valuta] ?? 1)).toFixed(2);
+    }
+    function sacuvajIzbor() {
+        try { localStorage.setItem('kzp-izbor', JSON.stringify({ drzava, valuta, gorivo })); } catch (e) {}
+    }
+    function promeniIzbor() {
+        primeniCenu();
+        sacuvajIzbor();
+    }
     let ukupno = "";
     let poOsobi = "";
     let litara = "";
@@ -264,10 +283,12 @@
     }
 
     function dodeliDizel(){
-        cenaGoriva = dizel;
+        gorivo = 'dizel';
+        promeniIzbor();
     }
     function dodeliBenzin(){
-        cenaGoriva = benzin;
+        gorivo = 'benzin';
+        promeniIzbor();
     }
     function togglePocetnaLokacija() {
         showPocetnaLokacija = !showPocetnaLokacija;
@@ -292,15 +313,34 @@
 
     onMount(async () => {
         try {
-            const response = await fetch('/api/fuel-prices');
-            const newData = await response.json();
-            if (newData) {
-                dizel = (newData.dizel * 117.5).toFixed(2);
-                benzin = (newData.benzin * 117.5).toFixed(2);
+            const saved = JSON.parse(localStorage.getItem('kzp-izbor'));
+            if (saved) {
+                drzava = saved.drzava ?? drzava;
+                valuta = saved.valuta ?? valuta;
+                gorivo = saved.gorivo ?? gorivo;
             }
+        } catch (e) {}
+        try {
+            const fx = await (await fetch('https://open.er-api.com/v6/latest/EUR')).json();
+            if (fx?.rates) {
+                rates = fx.rates;
+                const dn = new Intl.DisplayNames(['en'], { type: 'currency' });
+                currencyNames = Object.fromEntries(
+                    Object.keys(fx.rates).map(c => {
+                        try { return [c, dn.of(c)]; } catch { return [c, c]; }
+                    })
+                );
+            }
+        } catch (error) {
+            console.error('Error fetching exchange rates:', error);
+        }
+        try {
+            const newData = await (await fetch('/api/fuel-prices')).json();
+            if (newData?.countries?.length) countries = newData.countries;
         } catch (error) {
             console.error('Error fetching fuel prices:', error);
         }
+        primeniCenu();
     });
 
     onMount(() => {
@@ -408,8 +448,24 @@
         <label for="osoba">BROJ OSOBA</label>
     </div>
     <div>
+        <select tabindex="0" id="drzava" name="drzava" class="column input-field" bind:value={drzava} on:change={promeniIzbor}>
+            {#each sortedCountries as c}
+            <option value={c.code}>{c.name} — {c[gorivo].toFixed(2)} EUR/l</option>
+            {/each}
+        </select>
+        <label for="drzava">DRŽAVA</label>
+    </div>
+    <div>
+        <select tabindex="0" id="valuta" name="valuta" class="column input-field" bind:value={valuta} on:change={promeniIzbor}>
+            {#each Object.keys(rates) as code}
+            <option value={code}>{code} — {currencyNames[code] ?? code}</option>
+            {/each}
+        </select>
+        <label for="valuta">VALUTA</label>
+    </div>
+    <div>
         <input tabindex="0" on:focus={(evt) => evt.target.select()} step="any" name="gorivo" type="number" class="column input-field" placeholder="CENA GORIVA" bind:value={cenaGoriva}>
-        <label for="gorivo">CENA GORIVA</label>
+        <label for="gorivo">CENA GORIVA ({valuta}/L)</label>
         <button id="dizel" on:click={dodeliDizel}>DIZEL</button>
         <button id="benzin" on:click={dodeliBenzin}>BENZIN</button>
     </div>
@@ -418,9 +474,9 @@
 {#if distanca && potrosnja && osoba}
 <div id="resoult">
     <p id="error">{error}</p>
-    <p class="odgovor">Ukupno za ovo putovanje će ti trebati <strong>{parseFloat(ukupno).toFixed(0)} din</strong> ili <strong>{parseFloat(ukupno / 117.5).toFixed(2)} eur</strong></p>
+    <p class="odgovor">Ukupno za ovo putovanje će ti trebati <strong>{parseFloat(ukupno).toFixed(dec)} {valuta}</strong></p>
     {#if osoba > 1}
-    <p class="odgovor">Svako od vas <strong>{osoba}</strong> treba da izdvoji <strong>{parseFloat(poOsobi).toFixed(0)} din</strong> ili <strong>{parseFloat(poOsobi / 117.5).toFixed(2)} eur</strong></p>
+    <p class="odgovor">Svako od vas <strong>{osoba}</strong> treba da izdvoji <strong>{parseFloat(poOsobi).toFixed(dec)} {valuta}</strong></p>
     {/if}
     <p class="odgovor">Potrošićeš <strong>{parseFloat(litara).toFixed(2)} l </strong> goriva {#if duration} i trajaće oko <strong>{duration}</strong>{/if}</p>
 </div>
@@ -444,7 +500,7 @@ input[type=number] {
 #form{
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-rows: repeat(7, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     justify-items: center;

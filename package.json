@@ -14,6 +14,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
 		"format": "prettier --write .",
+		"scrape": "node src/lib/scraped/refresh.js",
 		"lint": "prettier --check ."
 	},
 	"devDependencies": {

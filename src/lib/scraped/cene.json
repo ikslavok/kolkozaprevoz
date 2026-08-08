@@ -1,5 +1,251 @@
 {
-  "benzin": 1.503,
-  "dizel": 1.615,
-  "date": "2025-05-01"
+  "countries": [
+    {
+      "code": "AL",
+      "name": "Albania",
+      "benzin": 2.021,
+      "dizel": 2.203
+    },
+    {
+      "code": "AD",
+      "name": "Andorra",
+      "benzin": 1.504,
+      "dizel": 1.606
+    },
+    {
+      "code": "AT",
+      "name": "Austria",
+      "benzin": 1.839,
+      "dizel": 2.05
+    },
+    {
+      "code": "BY",
+      "name": "Belarus",
+      "benzin": 0.795,
+      "dizel": 0.795
+    },
+    {
+      "code": "BE",
+      "name": "Belgium",
+      "benzin": 1.791,
+      "dizel": 2.135
+    },
+    {
+      "code": "BA",
+      "name": "Bosnia and Herzegovina",
+      "benzin": 1.488,
+      "dizel": 1.692
+    },
+    {
+      "code": "BG",
+      "name": "Bulgaria",
+      "benzin": 1.515,
+      "dizel": 1.71
+    },
+    {
+      "code": "HR",
+      "name": "Croatia",
+      "benzin": 1.617,
+      "dizel": 1.771
+    },
+    {
+      "code": "CY",
+      "name": "Cyprus",
+      "benzin": 1.571,
+      "dizel": 1.721
+    },
+    {
+      "code": "CZ",
+      "name": "Czechia",
+      "benzin": 1.745,
+      "dizel": 1.814
+    },
+    {
+      "code": "DK",
+      "name": "Denmark",
+      "benzin": 2.323,
+      "dizel": 2.456
+    },
+    {
+      "code": "EE",
+      "name": "Estonia",
+      "benzin": 1.723,
+      "dizel": 1.732
+    },
+    {
+      "code": "FI",
+      "name": "Finland",
+      "benzin": 2.166,
+      "dizel": 2.224
+    },
+    {
+      "code": "FR",
+      "name": "France",
+      "benzin": 2.024,
+      "dizel": 2.216
+    },
+    {
+      "code": "DE",
+      "name": "Germany",
+      "benzin": 2.109,
+      "dizel": 2.185
+    },
+    {
+      "code": "GR",
+      "name": "Greece",
+      "benzin": 2.021,
+      "dizel": 2.064
+    },
+    {
+      "code": "HU",
+      "name": "Hungary",
+      "benzin": 1.65,
+      "dizel": 1.714
+    },
+    {
+      "code": "IS",
+      "name": "Iceland",
+      "benzin": 1.529,
+      "dizel": 1.689
+    },
+    {
+      "code": "IE",
+      "name": "Ireland",
+      "benzin": 1.758,
+      "dizel": 1.752
+    },
+    {
+      "code": "IT",
+      "name": "Italy",
+      "benzin": 2.005,
+      "dizel": 2.101
+    },
+    {
+      "code": "LV",
+      "name": "Latvia",
+      "benzin": 1.861,
+      "dizel": 1.969
+    },
+    {
+      "code": "LT",
+      "name": "Lithuania",
+      "benzin": 1.69,
+      "dizel": 1.94
+    },
+    {
+      "code": "LU",
+      "name": "Luxembourg",
+      "benzin": 1.709,
+      "dizel": 1.854
+    },
+    {
+      "code": "MT",
+      "name": "Malta",
+      "benzin": 1.34,
+      "dizel": 1.21
+    },
+    {
+      "code": "MD",
+      "name": "Moldova",
+      "benzin": 1.527,
+      "dizel": 1.634
+    },
+    {
+      "code": "NL",
+      "name": "The Netherlands",
+      "benzin": 2.376,
+      "dizel": 2.376
+    },
+    {
+      "code": "NO",
+      "name": "Norway",
+      "benzin": 1.939,
+      "dizel": 1.975
+    },
+    {
+      "code": "PL",
+      "name": "Poland",
+      "benzin": 1.73,
+      "dizel": 1.829
+    },
+    {
+      "code": "PT",
+      "name": "Portugal",
+      "benzin": 1.982,
+      "dizel": 2.05
+    },
+    {
+      "code": "RO",
+      "name": "Romania",
+      "benzin": 1.818,
+      "dizel": 2.067
+    },
+    {
+      "code": "RU",
+      "name": "Russia",
+      "benzin": 0.788,
+      "dizel": 0.878
+    },
+    {
+      "code": "SM",
+      "name": "San Marino",
+      "benzin": 1.626,
+      "dizel": 1.878
+    },
+    {
+      "code": "RS",
+      "name": "Serbia",
+      "benzin": 1.722,
+      "dizel": 1.926
+    },
+    {
+      "code": "SK",
+      "name": "Slovakia",
+      "benzin": 1.765,
+      "dizel": 1.737
+    },
+    {
+      "code": "SI",
+      "name": "Slovenia",
+      "benzin": 1.584,
+      "dizel": 1.882
+    },
+    {
+      "code": "ES",
+      "name": "Spain",
+      "benzin": 1.714,
+      "dizel": 1.833
+    },
+    {
+      "code": "SE",
+      "name": "Sweden",
+      "benzin": 1.378,
+      "dizel": 1.802
+    },
+    {
+      "code": "CH",
+      "name": "Switzerland",
+      "benzin": 2.105,
+      "dizel": 2.321
+    },
+    {
+      "code": "TR",
+      "name": "Türkiye",
+      "benzin": 1.227,
+      "dizel": 1.46
+    },
+    {
+      "code": "UA",
+      "name": "Ukraine",
+      "benzin": 1.606,
+      "dizel": 1.823
+    },
+    {
+      "code": "GB",
+      "name": "United Kingdom",
+      "benzin": 1.866,
+      "dizel": 2.091
+    }
+  ],
+  "date": "2026-08-08"
 }
