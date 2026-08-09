@@ -12,8 +12,14 @@
 
 {@render children()}
 
+<footer><a href="/privacy">Politika privatnosti / Privacy Policy</a></footer>
 </div>
 <style>
+footer{
+    text-align: center;
+    margin: 3em 0 1.5em;
+    font-size: 0.9em;
+}
 .container{
 	width: 90vw;
 	margin: 0 auto;
